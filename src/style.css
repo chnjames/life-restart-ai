@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 自定义样式 */
+@layer base {
+  html {
+    font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  }
+  
+  body {
+    @apply bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen;
+  }
+}
+
+@layer components {
+  .game-card {
+    @apply bg-white rounded-lg shadow-lg p-6 border border-gray-200 hover:shadow-xl transition-shadow;
+  }
+  
+  .stat-item {
+    @apply flex justify-between items-center py-2 px-4 bg-gray-50 rounded-lg;
+  }
+  
+  .choice-button {
+    @apply w-full p-4 text-left bg-white border-2 border-gray-200 rounded-lg hover:border-primary-500 hover:bg-primary-50 transition-all;
+  }
+  
+  .choice-button:hover {
+    @apply transform translate-y-[-2px] shadow-md;
+  }
+}
