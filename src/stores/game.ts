@@ -62,13 +62,15 @@ export const useGameStore = defineStore('game', {
     processRoundResult(round: GameRound) {
       if (!this.currentSession) return
 
-      // 更新会话状态
+      // 更新会话状态（安全处理缺失属性）
+      const delta = round.ai_output.delta_stats
+      const current = this.currentSession.current_stats
       this.currentSession.current_stats = {
-        智力: this.currentSession.current_stats.智力 + round.ai_output.delta_stats.智力,
-        体质: this.currentSession.current_stats.体质 + round.ai_output.delta_stats.体质,
-        魅力: this.currentSession.current_stats.魅力 + round.ai_output.delta_stats.魅力,
-        运气: this.currentSession.current_stats.运气 + round.ai_output.delta_stats.运气,
-        金钱: this.currentSession.current_stats.金钱 + round.ai_output.delta_stats.金钱
+        智力: current.智力 + (delta.智力 || 0),
+        体质: current.体质 + (delta.体质 || 0),
+        魅力: current.魅力 + (delta.魅力 || 0),
+        运气: current.运气 + (delta.运气 || 0),
+        金钱: current.金钱 + (delta.金钱 || 0)
       }
 
       // 添加新的 flags

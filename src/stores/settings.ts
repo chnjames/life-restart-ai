@@ -89,10 +89,58 @@ export const useSettingsStore = defineStore('settings', {
     async validateAPIConfig(): Promise<{ openai: boolean; seedream: boolean }> {
       const result = { openai: false, seedream: false }
       
-      // 这里可以添加实际的 API 验证逻辑
-      // 现在只是简单检查是否有 API key
-      result.openai = !!this.apiConfig.openai_api_key
-      result.seedream = !!this.apiConfig.seedream_api_key
+      // 检查 API key 是否存在
+      if (!this.apiConfig.openai_api_key) {
+        console.warn('OpenAI API Key 未配置')
+        return result
+      }
+      if (!this.apiConfig.seedream_api_key) {
+        console.warn('Seedream API Key 未配置')
+        return result
+      }
+
+      // 尝试实际验证 OpenAI API
+      try {
+        const testResponse = await fetch(`${this.apiConfig.openai_base_url}/chat/completions`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${this.apiConfig.openai_api_key}`
+          },
+          body: JSON.stringify({
+            model: 'doubao-1-5-pro-32k-250115',
+            messages: [{ role: 'user', content: 'test' }],
+            max_tokens: 1
+          })
+        })
+        result.openai = testResponse.ok
+      } catch (error) {
+        console.warn('OpenAI API 验证失败:', error)
+        result.openai = false
+      }
+
+      // 尝试实际验证 Seedream API
+      try {
+        const testResponse = await fetch(`${this.apiConfig.seedream_base_url}/images/generations`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${this.apiConfig.seedream_api_key}`
+          },
+          body: JSON.stringify({
+            model: 'doubao-seedream-4-0-250828',
+            prompt: 'test',
+            response_format: 'url',
+            size: '1K',
+            stream: false,
+            watermark: true
+          })
+        })
+        result.seedream = testResponse.ok
+      } catch (error) {
+        console.warn('Seedream API 验证失败:', error)
+        result.seedream = false
+      }
       
       return result
     }

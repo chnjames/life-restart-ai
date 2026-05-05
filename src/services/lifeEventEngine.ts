@@ -37,12 +37,30 @@ export interface AIEventConfig {
 export class LifeEventEngine {
   private doubaoService: DoubaoService
 
-  // 事件统计
-  private eventStats = new Map<string, number>()
+  // 年龄阶段配置
+  private ageStages: AgeStage[] = []
+
+  // AI 事件生成配置
+  private aiConfig: AIEventConfig = {
+    contextDepth: 3,
+    personalityWeight: 0.5,
+    randomnessLevel: 0.3,
+    creativityBoost: 0.2
+  }
+
+  // 事件历史记录
+  private eventHistory: EventCard[] = []
 
   constructor(doubaoService: DoubaoService) {
     this.doubaoService = doubaoService
-    this.initializeEventHistory()
+    this.initializeAgeStages()
+  }
+
+  /**
+   * 初始化事件历史（空实现，保持兼容）
+   */
+  private initializeEventHistory() {
+    this.eventHistory = []
   }
 
   /**

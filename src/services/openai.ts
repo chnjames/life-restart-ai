@@ -45,7 +45,10 @@ export class DoubaoService {
         throw new Error('No content received from 豆包AI API')
       }
 
-      return this.parseEventResponse(content)
+      // 解析事件响应
+      const parsed = this.parseEventResponse(content)
+      console.log('✅ 事件解析成功:', parsed)
+      return parsed
     } catch (error) {
       console.error('豆包AI Event Generation Error:', error)
       throw error

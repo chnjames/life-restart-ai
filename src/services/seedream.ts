@@ -123,22 +123,27 @@ export class SeedreamService {
     // 返回一个占位图像的 base64 或 URL
     await new Promise(resolve => setTimeout(resolve, 2000)) // 模拟 API 延迟
     
+    // 安全获取色板值
+    const palette = config.style_guide?.色板 || ['#e8f4f8', '#7fb3d3', '#2c5aa0']
+    const contrast = config.style_guide?.对比度 || '中'
+    const grain = config.style_guide?.颗粒 || '细'
+    
     // 生成一个简单的 SVG 占位图
     const svgContent = `
       <svg width="512" height="512" xmlns="http://www.w3.org/2000/svg">
-        <rect width="100%" height="100%" fill="${config.style_guide.色板[0]}"/>
-        <rect x="50" y="50" width="412" height="412" fill="${config.style_guide.色板[1]}" rx="20"/>
-        <text x="256" y="200" text-anchor="middle" fill="${config.style_guide.色板[2]}" font-size="24" font-family="sans-serif">
+        <rect width="100%" height="100%" fill="${palette[0] || '#e8f4f8'}"/>
+        <rect x="50" y="50" width="412" height="412" fill="${palette[1] || '#7fb3d3'}" rx="20"/>
+        <text x="256" y="200" text-anchor="middle" fill="${palette[2] || '#2c5aa0'}" font-size="24" font-family="sans-serif">
           ${config.mode === 'edit' ? '局部编辑' : '全新生成'}
         </text>
-        <text x="256" y="240" text-anchor="middle" fill="${config.style_guide.色板[2]}" font-size="16" font-family="sans-serif">
+        <text x="256" y="240" text-anchor="middle" fill="${palette[2] || '#2c5aa0'}" font-size="16" font-family="sans-serif">
           图像生成
         </text>
-        <text x="256" y="280" text-anchor="middle" fill="${config.style_guide.色板[2]}" font-size="14" font-family="sans-serif">
-          对比度: ${config.style_guide.对比度}
+        <text x="256" y="280" text-anchor="middle" fill="${palette[2] || '#2c5aa0'}" font-size="14" font-family="sans-serif">
+          对比度: ${contrast}
         </text>
-        <text x="256" y="300" text-anchor="middle" fill="${config.style_guide.色板[2]}" font-size="14" font-family="sans-serif">
-          颗粒: ${config.style_guide.颗粒}
+        <text x="256" y="300" text-anchor="middle" fill="${palette[2] || '#2c5aa0'}" font-size="14" font-family="sans-serif">
+          颗粒: ${grain}
         </text>
       </svg>
     `

@@ -76,7 +76,8 @@ export const useLifeEventsStore = defineStore('lifeEvents', {
         console.log('人生事件引擎初始化成功')
       } catch (error) {
         console.error('初始化事件引擎失败:', error)
-        throw error
+        // 不抛出错误，允许后续使用后备方案
+        this.eventEngine = null
       }
     },
 
@@ -376,6 +377,7 @@ export const useLifeEventsStore = defineStore('lifeEvents', {
     },
 
     hashHistory(history: any[]): string {
+      if (history.length === 0) return 'empty'
       return history.map(h => h.event_card?.id || '').join('_')
     },
 

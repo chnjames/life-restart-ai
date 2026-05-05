@@ -166,6 +166,11 @@ export class ImageGenerationStrategy {
       return false
     }
 
+    // 检查 style_guide
+    if (!config.style_guide) {
+      return false
+    }
+
     // 检查色板格式
     if (!config.style_guide.色板 || config.style_guide.色板.length !== 3) {
       return false
@@ -176,6 +181,19 @@ export class ImageGenerationStrategy {
     const validColors = config.style_guide.色板.every(color => colorRegex.test(color))
     if (!validColors) {
       return false
+    }
+
+    // 检查 subject_anchor
+    if (!config.subject_anchor) {
+      return false
+    }
+
+    // 检查 subject_anchor 必需字段
+    const requiredAnchorFields = ['性别', '发型', '脸型', '肤色', '体型']
+    for (const field of requiredAnchorFields) {
+      if (!(field in config.subject_anchor)) {
+        return false
+      }
     }
 
     return true
