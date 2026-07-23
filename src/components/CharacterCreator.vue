@@ -1,266 +1,268 @@
 <template>
-  <div class="game-card">
-    <div class="flex items-center justify-between mb-4">
-      <h3 class="text-lg font-semibold text-gray-800">创建角色</h3>
-      <button 
-        @click="generateRandom"
-        class="text-sm px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"
-      >
-        随机生成
-      </button>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <!-- 基础信息 -->
-      <div class="space-y-4">
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">性别</label>
-          <select 
-            v-model="profile.性别"
-            class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option value="男">男</option>
-            <option value="女">女</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">发型</label>
-          <select 
-            v-model="profile.发型"
-            class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option value="短发">短发</option>
-            <option value="长发">长发</option>
-            <option value="卷发">卷发</option>
-            <option value="直发">直发</option>
-            <option value="马尾">马尾</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">脸型</label>
-          <select 
-            v-model="profile.脸型"
-            class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option value="鹅蛋脸">鹅蛋脸</option>
-            <option value="圆脸">圆脸</option>
-            <option value="方脸">方脸</option>
-            <option value="长脸">长脸</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">肤色</label>
-          <select 
-            v-model="profile.肤色"
-            class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option value="白皙">白皙</option>
-            <option value="自然">自然</option>
-            <option value="偏黄">偏黄</option>
-            <option value="健康小麦色">健康小麦色</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">体型</label>
-          <select 
-            v-model="profile.体型"
-            class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option value="瘦">瘦</option>
-            <option value="中等">中等</option>
-            <option value="微胖">微胖</option>
-            <option value="健壮">健壮</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">起始年龄</label>
-          <input 
-            v-model.number="profile.起始年龄"
-            type="number"
-            min="16"
-            max="25"
-            class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          />
-        </div>
+  <div class="fixed inset-0 z-50 flex items-start justify-center bg-black/80 backdrop-blur-sm p-4 overflow-y-auto">
+    <div class="game-card w-full max-w-4xl my-4 animate-fade-in">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-semibold text-slate-100">创建角色</h3>
+        <button 
+          @click="generateRandom"
+          class="text-sm px-3 py-1 bg-night-500 text-slate-300 hover:bg-night-400 rounded-md transition-colors"
+        >
+          随机生成
+        </button>
       </div>
 
-      <!-- 风格设置 -->
-      <div class="space-y-4">
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">
-            色板预设
-            <button 
-              @click="generateRandomColors"
-              class="ml-2 text-xs text-blue-600 hover:text-blue-800"
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- 基础信息 -->
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-slate-200 mb-2">性别</label>
+            <select 
+              v-model="profile.性别"
+              class="select-field"
             >
-              随机
-            </button>
-          </label>
-          <div class="grid grid-cols-3 gap-2">
-            <div
-              v-for="(palette, index) in colorPalettes"
-              :key="index"
-              @click="profile.色板 = palette"
-              class="cursor-pointer p-2 border rounded-md hover:border-blue-500 transition-colors"
-              :class="{ 'border-blue-500 ring-2 ring-blue-200': arraysEqual(profile.色板, palette) }"
+              <option value="男">男</option>
+              <option value="女">女</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-slate-200 mb-2">发型</label>
+            <select 
+              v-model="profile.发型"
+              class="select-field"
             >
-              <div class="flex space-x-1">
-                <div 
-                  v-for="color in palette"
-                  :key="color"
-                  class="w-6 h-6 rounded border border-gray-300"
-                  :style="{ backgroundColor: color }"
-                ></div>
+              <option value="短发">短发</option>
+              <option value="长发">长发</option>
+              <option value="卷发">卷发</option>
+              <option value="直发">直发</option>
+              <option value="马尾">马尾</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-slate-200 mb-2">脸型</label>
+            <select 
+              v-model="profile.脸型"
+              class="select-field"
+            >
+              <option value="鹅蛋脸">鹅蛋脸</option>
+              <option value="圆脸">圆脸</option>
+              <option value="方脸">方脸</option>
+              <option value="长脸">长脸</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-slate-200 mb-2">肤色</label>
+            <select 
+              v-model="profile.肤色"
+              class="select-field"
+            >
+              <option value="白皙">白皙</option>
+              <option value="自然">自然</option>
+              <option value="偏黄">偏黄</option>
+              <option value="健康小麦色">健康小麦色</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-slate-200 mb-2">体型</label>
+            <select 
+              v-model="profile.体型"
+              class="select-field"
+            >
+              <option value="瘦">瘦</option>
+              <option value="中等">中等</option>
+              <option value="微胖">微胖</option>
+              <option value="健壮">健壮</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-slate-200 mb-2">起始年龄</label>
+            <input 
+              v-model.number="profile.起始年龄"
+              type="number"
+              min="16"
+              max="25"
+              class="input-field"
+            />
+          </div>
+        </div>
+
+        <!-- 风格设置 -->
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-slate-200 mb-2">
+              色板预设
+              <button 
+                @click="generateRandomColors"
+                class="ml-2 text-xs text-glow-400 hover:text-glow-300"
+              >
+                随机
+              </button>
+            </label>
+            <div class="grid grid-cols-3 gap-2">
+              <div
+                v-for="(palette, index) in colorPalettes"
+                :key="index"
+                @click="profile.色板 = palette"
+                class="cursor-pointer p-2 border border-night-500 rounded-md hover:border-glow-400 transition-colors"
+                :class="{ 'border-glow-400 ring-2 ring-glow-400': arraysEqual(profile.色板, palette) }"
+              >
+                <div class="flex space-x-1">
+                  <div 
+                    v-for="color in palette"
+                    :key="color"
+                    class="w-6 h-6 rounded border border-night-500"
+                    :style="{ backgroundColor: color }"
+                  ></div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- 自定义色板 -->
+            <div class="mt-3">
+              <div class="text-xs text-slate-400 mb-2">自定义色板</div>
+              <div class="flex space-x-2">
+                <input 
+                  v-for="(color, index) in profile.色板"
+                  :key="index"
+                  v-model="profile.色板[index]"
+                  type="color"
+                  class="w-8 h-8 border border-night-500 rounded cursor-pointer bg-night-800"
+                />
               </div>
             </div>
           </div>
-          
-          <!-- 自定义色板 -->
-          <div class="mt-3">
-            <div class="text-xs text-gray-600 mb-2">自定义色板</div>
-            <div class="flex space-x-2">
-              <input 
-                v-for="(color, index) in profile.色板"
-                :key="index"
-                v-model="profile.色板[index]"
-                type="color"
-                class="w-8 h-8 border border-gray-300 rounded cursor-pointer"
-              />
-            </div>
+
+          <div>
+            <label class="block text-sm font-medium text-slate-200 mb-2">对比度</label>
+            <select 
+              v-model="profile.对比度"
+              class="select-field"
+            >
+              <option value="低">低</option>
+              <option value="中">中</option>
+              <option value="高">高</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-slate-200 mb-2">颗粒</label>
+            <select 
+              v-model="profile.颗粒"
+              class="select-field"
+            >
+              <option value="细">细</option>
+              <option value="中">中</option>
+              <option value="粗">粗</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-slate-200 mb-2">镜头</label>
+            <select 
+              v-model="profile.镜头"
+              class="select-field"
+            >
+              <option value="35mm">35mm (广角)</option>
+              <option value="50mm">50mm (标准)</option>
+              <option value="85mm">85mm (人像)</option>
+            </select>
           </div>
         </div>
+      </div>
 
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">对比度</label>
-          <select 
-            v-model="profile.对比度"
-            class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option value="低">低</option>
-            <option value="中">中</option>
-            <option value="高">高</option>
-          </select>
+      <!-- 初始属性分配 -->
+      <div class="mt-6 pt-6 section-divider">
+        <h4 class="text-lg font-medium text-slate-100 mb-4">初始属性分配</h4>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-slate-200 mb-2">智力</label>
+            <input 
+              v-model.number="stats.智力"
+              type="range"
+              min="1"
+              max="10"
+              class="w-full mb-1 accent-glow-400"
+              @input="checkTotalPoints"
+            />
+            <div class="text-center text-sm text-slate-400">{{ stats.智力 }}</div>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-slate-200 mb-2">体质</label>
+            <input 
+              v-model.number="stats.体质"
+              type="range"
+              min="1"
+              max="10"
+              class="w-full mb-1 accent-glow-400"
+              @input="checkTotalPoints"
+            />
+            <div class="text-center text-sm text-slate-400">{{ stats.体质 }}</div>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-slate-200 mb-2">魅力</label>
+            <input 
+              v-model.number="stats.魅力"
+              type="range"
+              min="1"
+              max="10"
+              class="w-full mb-1 accent-glow-400"
+              @input="checkTotalPoints"
+            />
+            <div class="text-center text-sm text-slate-400">{{ stats.魅力 }}</div>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-slate-200 mb-2">运气</label>
+            <input 
+              v-model.number="stats.运气"
+              type="range"
+              min="1"
+              max="10"
+              class="w-full mb-1 accent-glow-400"
+              @input="checkTotalPoints"
+            />
+            <div class="text-center text-sm text-slate-400">{{ stats.运气 }}</div>
+          </div>
         </div>
-
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">颗粒</label>
-          <select 
-            v-model="profile.颗粒"
-            class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+        
+        <div class="mt-4 text-center">
+          <div class="text-sm text-slate-300">
+            已用属性点: {{ totalUsedPoints }} / {{ maxPoints }}
+            <span v-if="totalUsedPoints > maxPoints" class="text-red-400 ml-2">
+              超出 {{ totalUsedPoints - maxPoints }} 点
+            </span>
+          </div>
+          <button 
+            @click="randomizeStats"
+            class="btn-secondary mt-2"
           >
-            <option value="细">细</option>
-            <option value="中">中</option>
-            <option value="粗">粗</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">镜头</label>
-          <select 
-            v-model="profile.镜头"
-            class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option value="35mm">35mm (广角)</option>
-            <option value="50mm">50mm (标准)</option>
-            <option value="85mm">85mm (人像)</option>
-          </select>
+            随机分配
+          </button>
         </div>
       </div>
-    </div>
 
-    <!-- 初始属性分配 -->
-    <div class="mt-6 pt-6 border-t border-gray-200">
-      <h4 class="text-lg font-medium text-gray-800 mb-4">初始属性分配</h4>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">智力</label>
-          <input 
-            v-model.number="stats.智力"
-            type="range"
-            min="1"
-            max="10"
-            class="w-full mb-1"
-            @input="checkTotalPoints"
-          />
-          <div class="text-center text-sm text-gray-600">{{ stats.智力 }}</div>
-        </div>
-        
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">体质</label>
-          <input 
-            v-model.number="stats.体质"
-            type="range"
-            min="1"
-            max="10"
-            class="w-full mb-1"
-            @input="checkTotalPoints"
-          />
-          <div class="text-center text-sm text-gray-600">{{ stats.体质 }}</div>
-        </div>
-        
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">魅力</label>
-          <input 
-            v-model.number="stats.魅力"
-            type="range"
-            min="1"
-            max="10"
-            class="w-full mb-1"
-            @input="checkTotalPoints"
-          />
-          <div class="text-center text-sm text-gray-600">{{ stats.魅力 }}</div>
-        </div>
-        
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">运气</label>
-          <input 
-            v-model.number="stats.运气"
-            type="range"
-            min="1"
-            max="10"
-            class="w-full mb-1"
-            @input="checkTotalPoints"
-          />
-          <div class="text-center text-sm text-gray-600">{{ stats.运气 }}</div>
-        </div>
-      </div>
-      
-      <div class="mt-4 text-center">
-        <div class="text-sm text-gray-600">
-          已用属性点: {{ totalUsedPoints }} / {{ maxPoints }}
-          <span v-if="totalUsedPoints > maxPoints" class="text-red-600 ml-2">
-            超出 {{ totalUsedPoints - maxPoints }} 点
-          </span>
-        </div>
-        <button 
-          @click="randomizeStats"
-          class="mt-2 text-sm px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"
+      <!-- 操作按钮 -->
+      <div class="mt-6 flex justify-end space-x-3">
+        <button
+          @click="$emit('cancel')"
+          class="btn-secondary"
         >
-          随机分配
+          取消
+        </button>
+        <button
+          @click="$emit('confirm', profile, stats)"
+          :disabled="totalUsedPoints > maxPoints"
+          class="btn-primary"
+        >
+          确认创建
         </button>
       </div>
-    </div>
-
-    <!-- 操作按钮 -->
-    <div class="mt-6 flex justify-end space-x-3">
-      <button
-        @click="$emit('cancel')"
-        class="px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
-      >
-        取消
-      </button>
-      <button
-        @click="$emit('confirm', profile, stats)"
-        :disabled="totalUsedPoints > maxPoints"
-        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-      >
-        确认创建
-      </button>
     </div>
   </div>
 </template>

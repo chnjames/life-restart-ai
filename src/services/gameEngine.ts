@@ -116,9 +116,17 @@ export class GameEngine {
   private validateAndFixOutput(output: GameEngineOutput, session: GameSession): GameEngineOutput {
     const fixed = { ...output }
 
+    // 确保所有属性键都存在且为有效数字
+    const statKeys: (keyof GameStats)[] = ['智力', '体质', '魅力', '运气', '金钱']
+    statKeys.forEach(key => {
+      const val = fixed.delta_stats[key]
+      if (val === undefined || val === null || isNaN(val)) {
+        fixed.delta_stats[key] = 0
+      }
+    })
+
     // 确保属性变化在合理范围内
-    Object.keys(fixed.delta_stats).forEach(key => {
-      const statKey = key as keyof GameStats
+    statKeys.forEach(statKey => {
       const currentValue = session.current_stats[statKey]
       const delta = fixed.delta_stats[statKey]
       

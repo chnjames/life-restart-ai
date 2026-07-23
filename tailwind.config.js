@@ -7,23 +7,44 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: {
-          50: '#f0f9ff',
-          500: '#3b82f6',
-          600: '#2563eb',
-          700: '#1d4ed8',
+        // Night scale - dark backgrounds (higher = darker)
+        night: {
+          50: '#eef2f8',
+          100: '#c7d2e8',
+          200: '#7c8db5',
+          300: '#4a5a82',
+          400: '#2e3a5c',
+          500: '#1e2845',   // borders / elevated surface
+          600: '#161e33',   // card background
+          700: '#0f1525',   // main background
+          800: '#0a0e1a',   // input / deep
+          900: '#050810',   // void
         },
-        accent: {
-          400: '#fbbf24',
-          500: '#f59e0b',
-          600: '#d97706',
-        }
+        // Glow - aurora teal (primary accent)
+        glow: {
+          50: '#f0fdfa',
+          100: '#ccfbf1',
+          200: '#99f6e4',
+          300: '#5eead4',
+          400: '#2dd4bf',   // main accent
+          500: '#14b8a6',
+          600: '#0d9488',
+          700: '#0f766e',
+        },
+        // Aurora - purple (secondary accent)
+        aurora: {
+          300: '#c4b5fd',
+          400: '#a78bfa',
+          500: '#8b5cf6',
+          600: '#7c3aed',
+        },
       },
       fontFamily: {
-        'chinese': ['PingFang SC', 'Microsoft YaHei', 'sans-serif'],
-      }
+        display: ['Noto Serif SC', 'Songti SC', 'serif'],
+        body: ['Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', 'sans-serif'],
+        mono: ['SF Mono', 'Fira Code', 'Consolas', 'monospace'],
+      },
     },
   },
   plugins: [],
 }
-

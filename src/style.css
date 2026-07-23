@@ -2,31 +2,298 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 自定义样式 */
+/* Hallmark · macrostructure: App Shell · genre: atmospheric · theme: Aurora
+ * tone: atmospheric · anchor hue: aurora-teal (200deg)
+ * Display: Noto Serif SC · Body: Noto Sans SC
+ */
+
+/* ==================== Design Tokens ==================== */
 @layer base {
-  html {
-    font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  :root {
+    /* Font families */
+    --font-display: 'Noto Serif SC', 'Songti SC', serif;
+    --font-body: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    --font-mono: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+
+    /* Spacing scale (4pt base) */
+    --space-xs: 0.25rem;   /* 4px */
+    --space-sm: 0.5rem;    /* 8px */
+    --space-md: 1rem;      /* 16px */
+    --space-lg: 1.5rem;    /* 24px */
+    --space-xl: 2rem;      /* 32px */
+    --space-2xl: 3rem;     /* 48px */
+    --space-3xl: 4rem;     /* 64px */
+
+    /* Radius */
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-full: 9999px;
+
+    /* Shadows (tinted for dark mode) */
+    --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.3);
+    --shadow-card-hover: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --shadow-glow: 0 0 20px rgba(45, 212, 191, 0.15);
+
+    /* Animation durations */
+    --dur-fast: 150ms;
+    --dur-normal: 300ms;
+    --dur-slow: 500ms;
+
+    /* Easings */
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in: cubic-bezier(0.4, 0, 1, 1);
+    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
   }
-  
+
+  html {
+    font-family: var(--font-body);
+    color: #e2e8f0;
+    background-color: #0f1525;
+  }
+
   body {
-    @apply bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen;
+    min-height: 100vh;
+    background-color: #0f1525;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 20% 0%, rgba(45, 212, 191, 0.07), transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 100%, rgba(167, 139, 250, 0.05), transparent 60%);
+    background-attachment: fixed;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0f1525;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #2e3a5c;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #4a5a82;
+  }
+
+  /* Selection */
+  ::selection {
+    background: rgba(45, 212, 191, 0.25);
+    color: #f0fdfa;
   }
 }
 
+/* ==================== Component Classes ==================== */
 @layer components {
+  /* Card with aurora dark theme */
   .game-card {
-    @apply bg-white rounded-lg shadow-lg p-6 border border-gray-200 hover:shadow-xl transition-shadow;
+    @apply bg-night-600 rounded-lg p-6 border border-night-500 transition-all;
+    box-shadow: var(--shadow-card);
   }
-  
+  .game-card:hover {
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  /* Stat row */
   .stat-item {
-    @apply flex justify-between items-center py-2 px-4 bg-gray-50 rounded-lg;
+    @apply flex justify-between items-center py-2 px-4 bg-night-700 rounded-lg;
   }
-  
+
+  /* Choice button */
   .choice-button {
-    @apply w-full p-4 text-left bg-white border-2 border-gray-200 rounded-lg hover:border-primary-500 hover:bg-primary-50 transition-all;
+    @apply w-full p-4 text-left bg-night-700 border-2 border-night-500 rounded-lg transition-all;
   }
-  
-  .choice-button:hover {
-    @apply transform translate-y-[-2px] shadow-md;
+  .choice-button:hover:not(:disabled) {
+    @apply border-glow-400 bg-night-500;
+    box-shadow: var(--shadow-glow);
+  }
+
+  /* Input field - abstracted from 15+ repetitions */
+  .input-field {
+    @apply w-full p-3 bg-night-800 border border-night-500 rounded-md text-slate-100
+           placeholder-slate-500 transition-colors;
+  }
+  .input-field:focus {
+    @apply outline-none ring-2 ring-glow-400/50 border-glow-400;
+  }
+
+  /* Select dropdown */
+  .select-field {
+    @apply w-full p-2 bg-night-800 border border-night-500 rounded-md text-slate-100 transition-colors;
+  }
+  .select-field:focus {
+    @apply outline-none ring-2 ring-glow-400/50 border-glow-400;
+  }
+
+  /* Buttons */
+  .btn-primary {
+    @apply px-6 py-3 bg-glow-400 text-night-900 rounded-lg font-medium
+           hover:bg-glow-300 transition-all;
+  }
+  .btn-primary:hover {
+    box-shadow: var(--shadow-glow);
+  }
+  .btn-primary:disabled {
+    @apply opacity-40 cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 border border-night-400 text-slate-300 rounded-lg font-medium
+           hover:bg-night-700 hover:text-slate-100 transition-all;
+  }
+
+  .btn-danger {
+    @apply px-4 py-2 bg-red-600 text-white rounded-md text-sm
+           hover:bg-red-500 transition-colors;
+  }
+
+  .btn-sm {
+    @apply px-4 py-2 text-sm rounded-md transition-colors;
+  }
+
+  /* Toggle switch - abstracted from 4 repetitions */
+  .toggle-switch {
+    @apply relative inline-flex items-center cursor-pointer;
+  }
+  .toggle-switch input {
+    @apply sr-only;
+  }
+  .toggle-track {
+    @apply w-11 h-6 bg-night-400 rounded-full transition-colors;
+  }
+  .toggle-switch input:focus + .toggle-track {
+    @apply ring-2 ring-glow-400/50 ring-offset-2 ring-offset-night-600;
+  }
+  .toggle-switch input:checked + .toggle-track {
+    @apply bg-glow-500;
+  }
+  .toggle-thumb {
+    @apply absolute top-0.5 left-0.5 bg-white border-night-400 border rounded-full h-5 w-5 transition-transform;
+  }
+  .toggle-switch input:checked + .toggle-track .toggle-thumb {
+    @apply translate-x-5;
+  }
+
+  /* Status dot */
+  .status-dot {
+    @apply w-2.5 h-2.5 rounded-full;
+  }
+  .status-dot-ok { @apply bg-green-500; }
+  .status-dot-err { @apply bg-red-500; }
+
+  /* Stat delta badge */
+  .delta-badge {
+    @apply text-xs font-medium px-2 py-1 rounded-full;
+  }
+  .delta-pos { @apply text-green-400 bg-green-500/15; }
+  .delta-neg { @apply text-red-400 bg-red-500/15; }
+
+  /* Label tag */
+  .label-tag {
+    @apply text-xs px-2 py-1 bg-night-500 text-slate-400 rounded-full;
+  }
+
+  /* Section divider */
+  .section-divider {
+    @apply border-t border-night-500;
+  }
+}
+
+/* ==================== Animations ==================== */
+@layer utilities {
+  @keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 12px rgba(45, 212, 191, 0.1); }
+    50% { box-shadow: 0 0 24px rgba(45, 212, 191, 0.25); }
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  @keyframes bounce-in {
+    0% { transform: scale(0.8); opacity: 0; }
+    60% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes slide-in-right {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up var(--dur-slow) var(--ease-out) both;
+  }
+
+  .animate-fade-in {
+    animation: fade-in var(--dur-slow) var(--ease-out) both;
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  .animate-bounce-in {
+    animation: bounce-in var(--dur-normal) var(--ease-out) both;
+  }
+
+  .animate-slide-in-right {
+    animation: slide-in-right var(--dur-normal) var(--ease-out) both;
+  }
+
+  /* Skeleton shimmer */
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      rgba(30, 40, 69, 0.4) 25%,
+      rgba(46, 58, 92, 0.6) 50%,
+      rgba(30, 40, 69, 0.4) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: var(--radius-md);
+  }
+
+  /* Aurora text gradient */
+  .text-aurora-gradient {
+    background: linear-gradient(135deg, #2dd4bf 0%, #a78bfa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Staggered animation delays */
+  .delay-100 { animation-delay: 100ms; }
+  .delay-200 { animation-delay: 200ms; }
+  .delay-300 { animation-delay: 300ms; }
+}
+
+/* ==================== Reduced Motion ==================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

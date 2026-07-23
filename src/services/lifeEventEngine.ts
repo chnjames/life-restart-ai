@@ -57,13 +57,6 @@ export class LifeEventEngine {
   }
 
   /**
-   * 初始化事件历史（空实现，保持兼容）
-   */
-  private initializeEventHistory() {
-    this.eventHistory = []
-  }
-
-  /**
    * 初始化年龄阶段配置
    * 模仿 lifeRestart 的年龄-事件关联系统
    */

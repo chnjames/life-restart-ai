@@ -174,8 +174,9 @@ export class SeedreamService {
         body: JSON.stringify(testRequest)
       })
       
-      // 即使返回错误，只要不是网络错误或CORS错误，就说明连接正常
-      return response.status !== 0 && !response.url.includes('cors-error')
+      // 能收到 HTTP 响应（不论状态码）说明网络连接正常
+      // 网络错误或 CORS 错误会抛异常，已被上方 catch 捕获
+      return true
     } catch (error) {
       console.log('API Status Check Error:', error)
       return false

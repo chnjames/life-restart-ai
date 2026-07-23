@@ -1,25 +1,25 @@
 <template>
-  <div class="max-w-4xl mx-auto">
-    <h1 class="text-3xl font-bold text-gray-800 mb-8">API 设置</h1>
+  <div class="max-w-4xl mx-auto animate-fade-in">
+    <h1 class="text-3xl font-bold font-display text-slate-100 mb-8">API 设置</h1>
 
     <div class="space-y-8">
       <!-- API 配置 -->
       <div class="game-card">
-        <h2 class="text-xl font-semibold text-gray-800 mb-6">API 配置</h2>
+        <h2 class="text-xl font-semibold text-slate-100 mb-6">API 配置</h2>
         
         <!-- 豆包AI 配置 -->
         <div class="mb-6">
-          <h3 class="text-lg font-medium text-gray-700 mb-4 flex items-center">
+          <h3 class="text-lg font-medium text-slate-200 mb-4 flex items-center">
             <div 
-              class="w-3 h-3 rounded-full mr-2"
-              :class="openaiConfigured ? 'bg-green-500' : 'bg-red-500'"
+              class="status-dot mr-2"
+              :class="openaiConfigured ? 'status-dot-ok' : 'status-dot-err'"
             ></div>
             豆包AI 配置
           </h3>
           
           <div class="space-y-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">
+              <label class="block text-sm font-medium text-slate-200 mb-2">
                 API Key
                 <span class="text-red-500">*</span>
               </label>
@@ -27,24 +27,24 @@
                 v-model="apiConfig.openai_api_key"
                 type="password"
                 placeholder="sk-..."
-                class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                class="input-field"
                 @blur="saveSettings"
               />
-              <p class="text-xs text-gray-500 mt-1">
-                在 <a href="https://console.volcengine.com/ark" target="_blank" class="text-blue-600 hover:underline">豆包AI ARK</a> 获取您的 API Key
+              <p class="text-xs text-slate-400 mt-1">
+                在 <a href="https://console.volcengine.com/ark" target="_blank" class="text-glow-400 hover:underline">豆包AI ARK</a> 获取您的 API Key
               </p>
             </div>
             
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Base URL</label>
+              <label class="block text-sm font-medium text-slate-200 mb-2">Base URL</label>
               <input
                 v-model="apiConfig.openai_base_url"
                 type="url"
                 placeholder="/doubao"
-                class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                class="input-field"
                 @blur="saveSettings"
               />
-              <p class="text-xs text-gray-500 mt-1">
+              <p class="text-xs text-slate-400 mt-1">
                 开发环境使用 "/doubao" 代理路径，生产环境使用完整 URL
               </p>
             </div>
@@ -53,17 +53,17 @@
 
         <!-- Seedream 配置 -->
         <div class="mb-6">
-          <h3 class="text-lg font-medium text-gray-700 mb-4 flex items-center">
+          <h3 class="text-lg font-medium text-slate-200 mb-4 flex items-center">
             <div 
-              class="w-3 h-3 rounded-full mr-2"
-              :class="seedreamConfigured ? 'bg-green-500' : 'bg-red-500'"
+              class="status-dot mr-2"
+              :class="seedreamConfigured ? 'status-dot-ok' : 'status-dot-err'"
             ></div>
             Seedream 配置
           </h3>
           
           <div class="space-y-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">
+              <label class="block text-sm font-medium text-slate-200 mb-2">
                 API Key
                 <span class="text-red-500">*</span>
               </label>
@@ -71,24 +71,24 @@
                 v-model="apiConfig.seedream_api_key"
                 type="password"
                 placeholder="sk-..."
-                class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                class="input-field"
                 @blur="saveSettings"
               />
-              <p class="text-xs text-gray-500 mt-1">
-                使用与上方相同的豆包AI ARK API Key，或在 <a href="https://console.volcengine.com/ark" target="_blank" class="text-blue-600 hover:underline">豆包AI ARK</a> 获取
+              <p class="text-xs text-slate-400 mt-1">
+                使用与上方相同的豆包AI ARK API Key，或在 <a href="https://console.volcengine.com/ark" target="_blank" class="text-glow-400 hover:underline">豆包AI ARK</a> 获取
               </p>
             </div>
             
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Base URL</label>
+              <label class="block text-sm font-medium text-slate-200 mb-2">Base URL</label>
               <input
                 v-model="apiConfig.seedream_base_url"
                 type="url"
                 placeholder="/seedream"
-                class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                class="input-field"
                 @blur="saveSettings"
               />
-              <p class="text-xs text-gray-500 mt-1">
+              <p class="text-xs text-slate-400 mt-1">
                 开发环境使用 "/seedream" 代理路径，生产环境使用完整 URL
               </p>
             </div>
@@ -96,13 +96,13 @@
         </div>
 
         <!-- API 测试 -->
-        <div class="pt-4 border-t border-gray-200">
+        <div class="pt-4 section-divider">
           <div class="flex items-center justify-between">
-            <span class="text-sm text-gray-600">API 连接状态</span>
+            <span class="text-sm text-slate-300">API 连接状态</span>
             <button
               @click="testAPIs"
               :disabled="isTestingAPIs"
-              class="px-4 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              class="btn-primary"
             >
               {{ isTestingAPIs ? '测试中...' : '测试连接' }}
             </button>
@@ -111,19 +111,19 @@
           <div v-if="apiTestResults" class="mt-3 space-y-2">
             <div class="flex items-center text-sm">
               <div 
-                class="w-2 h-2 rounded-full mr-2"
-                :class="apiTestResults.openai ? 'bg-green-500' : 'bg-red-500'"
+                class="status-dot mr-2"
+                :class="apiTestResults.openai ? 'status-dot-ok' : 'status-dot-err'"
               ></div>
-              <span :class="apiTestResults.openai ? 'text-green-700' : 'text-red-700'">
+              <span :class="apiTestResults.openai ? 'text-green-400' : 'text-red-400'">
                 豆包AI: {{ apiTestResults.openai ? '连接正常' : '连接失败' }}
               </span>
             </div>
             <div class="flex items-center text-sm">
               <div 
-                class="w-2 h-2 rounded-full mr-2"
-                :class="apiTestResults.seedream ? 'bg-green-500' : 'bg-red-500'"
+                class="status-dot mr-2"
+                :class="apiTestResults.seedream ? 'status-dot-ok' : 'status-dot-err'"
               ></div>
-              <span :class="apiTestResults.seedream ? 'text-green-700' : 'text-red-700'">
+              <span :class="apiTestResults.seedream ? 'text-green-400' : 'text-red-400'">
                 Seedream: {{ apiTestResults.seedream ? '连接正常' : '连接失败' }}
               </span>
             </div>
@@ -133,46 +133,48 @@
 
       <!-- 游戏偏好设置 -->
       <div class="game-card">
-        <h2 class="text-xl font-semibold text-gray-800 mb-6">游戏偏好</h2>
+        <h2 class="text-xl font-semibold text-slate-100 mb-6">游戏偏好</h2>
         
         <div class="space-y-6">
           <div class="flex items-center justify-between">
             <div>
-              <label class="text-sm font-medium text-gray-700">自动保存</label>
-              <p class="text-xs text-gray-500">自动保存游戏进度</p>
+              <label class="text-sm font-medium text-slate-200">自动保存</label>
+              <p class="text-xs text-slate-400">自动保存游戏进度</p>
             </div>
-            <label class="relative inline-flex items-center cursor-pointer">
+            <label class="toggle-switch">
               <input
                 v-model="preferences.autoSave"
                 type="checkbox"
-                class="sr-only peer"
                 @change="saveSettings"
               />
-              <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+              <span class="toggle-track">
+                <span class="toggle-thumb"></span>
+              </span>
             </label>
           </div>
 
           <div class="flex items-center justify-between">
             <div>
-              <label class="text-sm font-medium text-gray-700">启用图像生成</label>
-              <p class="text-xs text-gray-500">使用 Seedream API 生成游戏图像，禁用后仅显示文本</p>
+              <label class="text-sm font-medium text-slate-200">启用图像生成</label>
+              <p class="text-xs text-slate-400">使用 Seedream API 生成游戏图像，禁用后仅显示文本</p>
             </div>
-            <label class="relative inline-flex items-center cursor-pointer">
+            <label class="toggle-switch">
               <input
                 v-model="preferences.enableImageGeneration"
                 type="checkbox"
-                class="sr-only peer"
                 @change="saveSettings"
               />
-              <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+              <span class="toggle-track">
+                <span class="toggle-thumb"></span>
+              </span>
             </label>
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">图像质量</label>
+            <label class="block text-sm font-medium text-slate-200 mb-2">图像质量</label>
             <select
               v-model="preferences.imageQuality"
-              class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              class="select-field"
               @change="saveSettings"
             >
               <option value="low">低 (512x512)</option>
@@ -182,10 +184,10 @@
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">文字显示速度</label>
+            <label class="block text-sm font-medium text-slate-200 mb-2">文字显示速度</label>
             <select
               v-model="preferences.textSpeed"
-              class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              class="select-field"
               @change="saveSettings"
             >
               <option value="slow">慢</option>
@@ -196,25 +198,26 @@
 
           <div class="flex items-center justify-between">
             <div>
-              <label class="text-sm font-medium text-gray-700">声音效果</label>
-              <p class="text-xs text-gray-500">启用游戏音效（暂未实现）</p>
+              <label class="text-sm font-medium text-slate-200">声音效果</label>
+              <p class="text-xs text-slate-400">启用游戏音效（暂未实现）</p>
             </div>
-            <label class="relative inline-flex items-center cursor-pointer">
+            <label class="toggle-switch">
               <input
                 v-model="preferences.soundEnabled"
                 type="checkbox"
-                class="sr-only peer"
                 @change="saveSettings"
               />
-              <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+              <span class="toggle-track">
+                <span class="toggle-thumb"></span>
+              </span>
             </label>
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">主题</label>
+            <label class="block text-sm font-medium text-slate-200 mb-2">主题</label>
             <select
               v-model="preferences.theme"
-              class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              class="select-field"
               @change="saveSettings"
             >
               <option value="light">浅色主题</option>
@@ -226,26 +229,26 @@
 
       <!-- 数据管理 -->
       <div class="game-card">
-        <h2 class="text-xl font-semibold text-gray-800 mb-6">数据管理</h2>
+        <h2 class="text-xl font-semibold text-slate-100 mb-6">数据管理</h2>
         
         <div class="space-y-4">
-          <div class="flex items-center justify-between p-4 bg-amber-50 border border-amber-200 rounded-lg">
+          <div class="flex items-center justify-between p-4 bg-amber-500/10 border border-amber-500/30 rounded-lg">
             <div>
-              <h3 class="text-sm font-medium text-amber-800">导出游戏数据</h3>
-              <p class="text-xs text-amber-700">将游戏设置和存档导出为 JSON 文件</p>
+              <h3 class="text-sm font-medium text-amber-300">导出游戏数据</h3>
+              <p class="text-xs text-amber-400">将游戏设置和存档导出为 JSON 文件</p>
             </div>
             <button
               @click="exportData"
-              class="px-4 py-2 text-sm bg-amber-600 text-white rounded-md hover:bg-amber-700 transition-colors"
+              class="px-4 py-2 text-sm bg-amber-600 text-white rounded-md hover:bg-amber-500 transition-colors"
             >
               导出
             </button>
           </div>
 
-          <div class="flex items-center justify-between p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <div class="flex items-center justify-between p-4 bg-glow-400/10 border border-glow-400/30 rounded-lg">
             <div>
-              <h3 class="text-sm font-medium text-blue-800">导入游戏数据</h3>
-              <p class="text-xs text-blue-700">从 JSON 文件导入游戏设置和存档</p>
+              <h3 class="text-sm font-medium text-glow-200">导入游戏数据</h3>
+              <p class="text-xs text-glow-300">从 JSON 文件导入游戏设置和存档</p>
             </div>
             <div>
               <input
@@ -257,21 +260,21 @@
               />
               <button
                 @click="($refs.fileInput as HTMLInputElement)?.click()"
-                class="px-4 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                class="px-4 py-2 text-sm bg-glow-400 text-night-900 font-medium rounded-md hover:bg-glow-300 transition-colors"
               >
                 导入
               </button>
             </div>
           </div>
 
-          <div class="flex items-center justify-between p-4 bg-red-50 border border-red-200 rounded-lg">
+          <div class="flex items-center justify-between p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
             <div>
-              <h3 class="text-sm font-medium text-red-800">重置所有数据</h3>
-              <p class="text-xs text-red-700">清除所有设置和游戏存档（不可恢复）</p>
+              <h3 class="text-sm font-medium text-red-300">重置所有数据</h3>
+              <p class="text-xs text-red-400">清除所有设置和游戏存档（不可恢复）</p>
             </div>
             <button
               @click="resetAllData"
-              class="px-4 py-2 text-sm bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+              class="btn-danger"
             >
               重置
             </button>
@@ -281,9 +284,9 @@
 
       <!-- 关于 -->
       <div class="game-card">
-        <h2 class="text-xl font-semibold text-gray-800 mb-6">关于</h2>
+        <h2 class="text-xl font-semibold text-slate-100 mb-6">关于</h2>
         
-        <div class="text-sm text-gray-600 space-y-3">
+        <div class="text-sm text-slate-300 space-y-3">
           <div>
             <strong>AI 人生重开 图文混合版</strong> v1.0.0
           </div>
@@ -296,16 +299,16 @@
           <div>
             这是一个纯前端应用，所有数据均存储在本地，保护您的隐私安全。
           </div>
-          <div class="pt-2 border-t border-gray-200">
-            <a href="https://github.com/chnjames/life-restart-ai" target="_blank" class="text-blue-600 hover:underline">
+          <div class="pt-2 section-divider">
+            <a href="https://github.com/chnjames/life-restart-ai" target="_blank" class="text-glow-400 hover:underline">
               GitHub 源码
             </a>
             ·
-            <a href="#" class="text-blue-600 hover:underline">
+            <a href="#" class="text-glow-400 hover:underline">
               使用说明
             </a>
             ·
-            <a href="https://github.com/chnjames/life-restart-ai/issues" class="text-blue-600 hover:underline">
+            <a href="https://github.com/chnjames/life-restart-ai/issues" class="text-glow-400 hover:underline">
               问题反馈
             </a>
           </div>

@@ -84,7 +84,7 @@ export const useEventsStore = defineStore('events', {
       console.log('🤖 开始初始化 AI 驱动的事件系统...')
       
       // 初始化 AI 服务
-      const aiReady = await this.initializeAI()
+      const aiReady = await this.isAIWorking()
       
       // 清空旧的缓存
       this.eventCache.clear()
@@ -109,7 +109,7 @@ export const useEventsStore = defineStore('events', {
 
       // 确保 AI 服务可用
       if (!this.isAIReady) {
-        const aiInitialized = await this.initializeAI()
+        const aiInitialized = await this.isAIWorking()
         if (!aiInitialized) {
           console.error('❌ AI 服务初始化失败，无法生成事件')
           return null

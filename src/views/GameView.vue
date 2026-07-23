@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="animate-fade-in">
     <!-- 游戏主界面 -->
     <div v-if="!showCharacterCreator && hasActiveSession" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <!-- 左侧属性面板 -->
@@ -31,14 +31,14 @@
         <!-- 等待下一个事件 -->
         <div v-else class="game-card text-center">
           <div v-if="isLoadingEvent" class="py-8">
-            <div class="animate-spin w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full mx-auto mb-4"></div>
-            <div class="text-gray-600">生成下一个事件中...</div>
+            <div class="animate-spin w-8 h-8 border-4 border-glow-400 border-t-transparent rounded-full mx-auto mb-4"></div>
+            <div class="text-glow-400">生成下一个事件中...</div>
           </div>
           <div v-else class="py-8">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">准备下一个人生阶段</h3>
+            <h3 class="text-lg font-semibold text-slate-100 mb-4">准备下一个人生阶段</h3>
             <button
               @click="generateNextEvent"
-              class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              class="btn-primary"
             >
               继续游戏
             </button>
@@ -58,11 +58,11 @@
     <!-- 无活跃会话时的界面 -->
     <div v-else class="text-center">
       <div class="game-card max-w-md mx-auto">
-        <h2 class="text-2xl font-bold text-gray-800 mb-4">开始新的人生</h2>
-        <p class="text-gray-600 mb-6">创建您的虚拟角色，开始人生重开之旅</p>
+        <h2 class="text-2xl font-bold text-slate-100 mb-4">开始新的人生</h2>
+        <p class="text-slate-300 mb-6">创建您的虚拟角色，开始人生重开之旅</p>
         
-        <div v-if="!isAPIConfigured" class="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
-          <div class="text-amber-800 text-sm">
+        <div v-if="!isAPIConfigured" class="mb-6 p-4 bg-amber-500/10 border border-amber-500/30 rounded-lg">
+          <div class="text-amber-300 text-sm">
             <svg class="w-5 h-5 mr-2 inline" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
             </svg>
@@ -74,14 +74,14 @@
           <button
             @click="startNewGame"
             :disabled="!isAPIConfigured"
-            class="w-full px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            class="btn-primary w-full"
           >
             创建角色
           </button>
           
           <router-link
             to="/settings"
-            class="block w-full px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+            class="btn-secondary block w-full"
           >
             API 设置
           </router-link>
@@ -93,10 +93,10 @@
     <div v-if="hasActiveSession && gameHistory.length > 0" class="mt-8">
       <div class="game-card">
         <div class="flex items-center justify-between mb-4">
-          <h3 class="text-lg font-semibold text-gray-800">游戏历史</h3>
+          <h3 class="text-lg font-semibold text-slate-100">游戏历史</h3>
           <button
             @click="showHistory = !showHistory"
-            class="text-sm text-blue-600 hover:text-blue-800"
+            class="text-sm text-glow-400 hover:text-glow-300"
           >
             {{ showHistory ? '隐藏' : '显示' }}历史
           </button>
@@ -106,28 +106,28 @@
           <div
             v-for="round in gameHistory.slice().reverse()"
             :key="round.round"
-            class="p-4 bg-gray-50 rounded-lg border"
+            class="p-4 bg-night-700 rounded-lg border border-night-500"
           >
             <div class="flex items-center justify-between mb-2">
-              <span class="text-sm font-medium text-gray-800">
+              <span class="text-sm font-medium text-slate-100">
                 第 {{ round.round }} 回合 ({{ round.age }}岁)
               </span>
-              <span class="text-xs text-gray-500">{{ formatTime(round.timestamp) }}</span>
+              <span class="text-xs text-slate-400">{{ formatTime(round.timestamp) }}</span>
             </div>
-            <div class="text-sm text-gray-600 mb-2">
+            <div class="text-sm text-slate-300 mb-2">
               <strong>事件:</strong> {{ round.event_card.title }}
             </div>
-            <div class="text-sm text-gray-600 mb-2">
+            <div class="text-sm text-slate-300 mb-2">
               <strong>选择:</strong> {{ round.choice_made.text }}
             </div>
-            <div class="text-sm text-gray-700">
+            <div class="text-sm text-slate-200">
               <strong>结果:</strong> {{ round.ai_output.result_text }}
             </div>
             <div v-if="round.generated_image" class="mt-2">
               <img 
                 :src="round.generated_image" 
                 :alt="round.event_card.title"
-                class="w-24 h-24 object-cover rounded border cursor-pointer"
+                class="w-24 h-24 object-cover rounded border border-night-400 cursor-pointer"
                 @click="showImageModal(round.generated_image)"
               />
             </div>
@@ -139,14 +139,23 @@
     <!-- 图像模态框 -->
     <div
       v-if="modalImage"
-      class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
+      class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4"
       @click="modalImage = null"
     >
-      <div class="max-w-4xl max-h-4xl p-4">
+      <div class="relative max-w-4xl max-h-[90vh]">
+        <button
+          @click.stop="modalImage = null"
+          class="absolute -top-3 -right-3 z-10 w-8 h-8 flex items-center justify-center bg-night-600 border border-night-400 text-slate-200 rounded-full hover:bg-night-500 transition-colors"
+          aria-label="关闭"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
         <img
           :src="modalImage"
           alt="历史图像"
-          class="max-w-full max-h-full object-contain rounded"
+          class="max-w-full max-h-[90vh] object-contain rounded-lg border border-night-400"
         />
       </div>
     </div>
@@ -158,7 +167,6 @@ import { ref, computed, onMounted } from 'vue'
 import { useGameStore } from '@/stores/game'
 import { useSettingsStore } from '@/stores/settings'
 import { useEventsStore } from '@/stores/events'
-import { useLifeEventsStore } from '@/stores/lifeEvents'
 import { GameEngine } from '@/services/gameEngine'
 import StatsPanel from '@/components/StatsPanel.vue'
 import EventCard from '@/components/EventCard.vue'
@@ -168,7 +176,6 @@ import type { AvatarProfile, GameStats, Choice, SeedreamConfig, GameEngineOutput
 const gameStore = useGameStore()
 const settingsStore = useSettingsStore()
 const eventsStore = useEventsStore()
-const lifeEventsStore = useLifeEventsStore()
 
 const showCharacterCreator = ref(false)
 const isLoadingEvent = ref(false)

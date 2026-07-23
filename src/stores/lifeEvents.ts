@@ -30,7 +30,8 @@ export const useLifeEventsStore = defineStore('lifeEvents', {
       totalGenerated: 0,
       aiSuccessRate: 0,
       averageGenerationTime: 0,
-      cacheHitRate: 0
+      cacheHitRate: 0,
+      cacheHits: 0
     },
     
     // 配置
@@ -308,10 +309,10 @@ export const useLifeEventsStore = defineStore('lifeEvents', {
           // 记录失败但不增加总数
           break
         case 'cache_hit':
-          // 更新缓存命中率
-          const totalRequests = this.generationHistory.length + 1
-          const cacheHits = this.generationHistory.filter(h => h.source === 'ai').length
-          this.stats.cacheHitRate = cacheHits / totalRequests
+          // 更新缓存命中率 - 缓存命中单独计数
+          this.stats.cacheHits++
+          const totalRequests = this.stats.totalGenerated + this.stats.cacheHits
+          this.stats.cacheHitRate = this.stats.cacheHits / totalRequests
           break
       }
 
@@ -391,7 +392,8 @@ export const useLifeEventsStore = defineStore('lifeEvents', {
         totalGenerated: 0,
         aiSuccessRate: 0,
         averageGenerationTime: 0,
-        cacheHitRate: 0
+        cacheHitRate: 0,
+        cacheHits: 0
       }
     },
 

@@ -106,7 +106,7 @@ export class DoubaoService {
       })
 
       if (!response.ok) {
-        throw new Error(`豦包AI API error: ${response.status} ${response.statusText}`)
+        throw new Error(`豆包AI API error: ${response.status} ${response.statusText}`)
       }
 
       const data = await response.json()
@@ -114,12 +114,12 @@ export class DoubaoService {
       const content = data.choices[0]?.message?.content
 
       if (!content) {
-        throw new Error('No content received from 豦包AI API')
+        throw new Error('No content received from 豆包AI API')
       }
 
       return this.parseGameResponse(content, input)
     } catch (error) {
-      console.error('豦包AI Service Error:', error)
+      console.error('豆包AI Service Error:', error)
       throw error
     }
   }
@@ -329,15 +329,15 @@ runtime = ${JSON.stringify(input.runtime, null, 2)}
         }
       }
 
-      // 处理属性变化
+      // 处理属性变化 - AI 返回的即为变化量，直接使用
       if (chineseObj['属性变化']) {
         const attrs = chineseObj['属性变化']
         converted.delta_stats = {
-          智力: (attrs['智力'] || 0) - 5, // 减去初始值得到变化量
-          体质: (attrs['体质'] || 0) - 5,
-          魅力: (attrs['魅力'] || 0) - 5,
-          运气: (attrs['运气'] || 0) - 5,
-          金钱: (attrs['金钱'] || 0) - 100 // 减去初始金钱
+          智力: attrs['智力'] ?? 0,
+          体质: attrs['体质'] ?? 0,
+          魅力: attrs['魅力'] ?? 0,
+          运气: attrs['运气'] ?? 0,
+          金钱: attrs['金钱'] ?? 0
         }
       }
 
